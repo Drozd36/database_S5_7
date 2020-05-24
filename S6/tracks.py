@@ -16,7 +16,10 @@ CREATE TABLE Artist (
     name TEXT UNIQUE
 );
 
-#TODO 1
+CREATE TABLE Genre (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name TEXT UNIQUE
+);
 
 CREATE TABLE Album (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -57,6 +60,7 @@ print 'Dict count:', len(all)
 for entry in all:
     if ( lookup(entry, 'Track ID') is None ) : continue
     #TODO 2 create a genre value
+    genre = lookup(entry, 'Genre')
     name = lookup(entry, 'Name')
     artist = lookup(entry, 'Artist')
     album = lookup(entry, 'Album')
@@ -65,7 +69,7 @@ for entry in all:
     length = lookup(entry, 'Total Time')
 
     #TODO 3 check the genre value
-    if name is None or artist is None or album is None:
+    if name is None or artist is None or album is None or genre is None:
         continue
 
     print name, artist, genre, album, count, rating, length
