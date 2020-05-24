@@ -75,11 +75,15 @@ for entry in all:
     print name, artist, genre, album, count, rating, length
 
     cur.execute('''INSERT OR IGNORE INTO Artist (name) 
-        VALUES ( ? )''', ( artist, ) )
+        VALUES ( ? )''', (artist, ))
     cur.execute('SELECT id FROM Artist WHERE name = ? ', (artist, ))
     artist_id = cur.fetchone()[0]
 
     #TODO 4 insert the genre value into Genre table. Create a genre_id value
+    cur.execute('''INSERT OR IGNORE INTO Genre (name) 
+           VALUES ( ? )''', (genre,))
+    cur.execute('SELECT id FROM Genre WHERE name = ? ', (genre,))
+    genre_id = cur.fetchone()[0]
 
     cur.execute('''INSERT OR IGNORE INTO Album (title, artist_id) 
         VALUES ( ?, ? )''', ( album, artist_id ) )
@@ -88,7 +92,7 @@ for entry in all:
 
     #TODO 5 insert the genre_id value into Track table
     cur.execute('''INSERT OR REPLACE INTO Track
-        (title, album_id, len, rating, count)
+        (title, album_id, genre_id, len, rating, count)
         VALUES ( ?, ?, ?, ?, ?, ? )''',
         ( name, album_id, genre_id, length, rating, count ) )
 
