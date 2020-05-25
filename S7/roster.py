@@ -42,9 +42,8 @@ for entry in json_data:
 
     name = entry[0];
     title = entry[1];
-    
     #TODO Create role
-
+    role = entry[2];
     #print name, title, role
 
     cur.execute('''INSERT OR IGNORE INTO User (name) 
@@ -59,10 +58,16 @@ for entry in json_data:
 
     #TODO Insert role in Member table
     cur.execute('''INSERT OR REPLACE INTO Member
-        (user_id, course_id) VALUES ( ?, ?)''', (user_id, course_id, ))
+        (user_id, course_id, role) VALUES ( ?, ?, ?)''', (user_id, course_id, role, ))
 
     conn.commit()
 
 #TODO Make request and print result  
+result = '''SELECT u.name, c.title FROM User u, Course c, Member m
+            WHERE u.id = m.user_id AND c.id = m.course_id AND m.role = '1'
+            ORDER BY u.name DESC'''
 
+for i in cur.execute(result):
+    print i[0], i[1]
 #TODO Close connection 
+cur.close()
